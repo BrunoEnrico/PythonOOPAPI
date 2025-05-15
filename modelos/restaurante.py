@@ -17,7 +17,7 @@ class Restaurante:
     
     @classmethod
     def listar_restaurantes(cls):
-        print(f'{'Nome do restaurante'.ljust(25)} | {'Categoria'.ljust(25)} | {'Avaliação'.ljust(25)} |{'Status'}')
+        print(f"{'Nome do restaurante'.ljust(25)} | {'Categoria'.ljust(25)} | {'Avaliação'.ljust(25)} |{'Status'}")
         for restaurante in cls.restaurantes:
             print(f'{restaurante._nome.ljust(25)} | {restaurante._categoria.ljust(25)} | {str(restaurante.media_avaliacoes).ljust(25)} |{restaurante.ativo}')
 
@@ -45,3 +45,13 @@ class Restaurante:
     def adicionar_ao_cardapio(self, item: ItemCardapio) -> None:
         if isinstance(item, ItemCardapio):
             self._cardapio.append(item)
+
+    def exibir_cardapio(self) -> None:
+        print(f'Cardapio do restaurante: {self._nome}\n')
+        for i, item in enumerate(self._cardapio, start=1):
+            if hasattr(item, "_descricao"):
+                mensagem_prato = f"""{i}. {item._nome} - R$ {item._preco} \n {item._descricao}"""
+                print(mensagem_prato)
+            else:
+                mensagem_prato = f"""{i}. {item._nome} - R$ {item._preco} \n {item._tamanho}"""
+                print(mensagem_prato)

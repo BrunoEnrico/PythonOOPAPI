@@ -13,8 +13,7 @@ restaurante_praca.receber_avaliacao('Lais', 8)
 restaurante_praca.receber_avaliacao('Emy', 2)
 
 def main():
-    print(bebida_suco)
-    print(prato_salada)
+    restaurante_praca.exibir_cardapio()
 
 if __name__ == '__main__':
     main()
