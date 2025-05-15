@@ -2,13 +2,13 @@ from modelos.avaliacao import Avaliacao
 from modelos.cardapio.item_cardapio import ItemCardapio
 
 class Restaurante:
-    restaurantes = []
+    restaurantes: list['Restaurante'] = []
 
-    def __init__(self, nome, categoria):
+    def __init__(self, nome: str, categoria: str):
         self._nome = nome.title()
         self._categoria = categoria.upper()
         self._ativo = False
-        self._avaliacao = []
+        self._avaliacao: list[Avaliacao] = []
         self._cardapio = []
         Restaurante.restaurantes.append(self)
     
@@ -16,7 +16,7 @@ class Restaurante:
         return f'{self._nome} | {self._categoria}'
     
     @classmethod
-    def listar_restaurantes(cls):
+    def listar_restaurantes(cls: 'Restaurante'):
         print(f"{'Nome do restaurante'.ljust(25)} | {'Categoria'.ljust(25)} | {'Avaliação'.ljust(25)} |{'Status'}")
         for restaurante in cls.restaurantes:
             print(f'{restaurante._nome.ljust(25)} | {restaurante._categoria.ljust(25)} | {str(restaurante.media_avaliacoes).ljust(25)} |{restaurante.ativo}')
@@ -28,7 +28,7 @@ class Restaurante:
     def alternar_estado(self):
         self._ativo = not self._ativo
 
-    def receber_avaliacao(self, cliente, nota):
+    def receber_avaliacao(self, cliente: str, nota: int | float):
         if 0 < nota <= 5: 
             avaliacao = Avaliacao(cliente, nota)
             self._avaliacao.append(avaliacao)
