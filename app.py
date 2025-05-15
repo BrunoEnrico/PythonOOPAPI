@@ -1,21 +1,20 @@
-from modelos.restaurante import Restaurante
-from modelos.cardapio.bebida import Bebida
-from modelos.cardapio.prato import Prato
+import requests
+from requests import Response
 
-restaurante_praca = Restaurante('praça', 'Gourmet')
-bebida_suco = Bebida('Melancia', 3.50, tamanho="Grande")
-prato_salada = Prato('Salada', 15.99, descricao="Muito bom")
-bebida_suco.aplicar_desconto()
-prato_salada.aplicar_desconto()
-restaurante_praca.adicionar_ao_cardapio(bebida_suco)
-restaurante_praca.adicionar_ao_cardapio(prato_salada)
+class App:
 
-restaurante_praca.receber_avaliacao('Gui', 10)
-restaurante_praca.receber_avaliacao('Lais', 8)
-restaurante_praca.receber_avaliacao('Emy', 2)
+    @staticmethod
+    def get_request_response(url: str):
+        return requests.get(url, verify=False)
 
-def main():
-    restaurante_praca.exibir_cardapio()
+    @staticmethod
+    def convert_json_response_to_dict(response: Response, field_to_retrieve: str, keys: list[str]):
+        response_dict = {}
+        for item in response.json():
+            data_name = item[field_to_retrieve]
+            if data_name not in response_dict:
+                response_dict[data_name] = []
 
-if __name__ == '__main__':
-    main()
+            response_dict[data_name].append(
+                {key: key for key in keys}
+            )
