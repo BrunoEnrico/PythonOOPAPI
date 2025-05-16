@@ -1,7 +1,10 @@
+import json
+
 from app import App
 from modelos.restaurante import Restaurante
 from modelos.cardapio.bebida import Bebida
 from modelos.cardapio.prato import Prato
+
 
 
 def main():
@@ -24,7 +27,11 @@ def main():
     response = app.get_request_response(url)
 
     response_dict = app.convert_json_response_to_dict(response, "Company", ["Item", "price", "description"])
-    print(response_dict)
+    for nome_restaurante, dados in response_dict.items():
+        filename = f"{nome_restaurante}.json"
+
+        with open(filename, "w") as file:
+            json.dump(dados, file, indent=4)
 
 if __name__ == '__main__':
     main()
