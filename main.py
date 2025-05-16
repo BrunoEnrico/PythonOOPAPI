@@ -1,6 +1,6 @@
 import json
 
-from app import App
+from request import Request
 from modelos.restaurante import Restaurante
 from modelos.cardapio.bebida import Bebida
 from modelos.cardapio.prato import Prato
@@ -23,10 +23,10 @@ def main():
     restaurante_praca.receber_avaliacao('Emy', 2)
     restaurante_praca.exibir_cardapio() """
 
-    app = App()
-    response = app.get_request_response(url)
+    request = Request()
+    response = request.get_request_response(url)
 
-    response_dict = app.convert_json_response_to_dict(response, "Company", ["Item", "price", "description"])
+    response_dict = request.convert_json_response_to_dict(response, "Company", ["Item", "price", "description"])
     for nome_restaurante, dados in response_dict.items():
         filename = f"{nome_restaurante}.json"
 

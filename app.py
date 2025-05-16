@@ -1,21 +1,21 @@
-import requests
-from requests import Response
+from fastapi import FastAPI, Query
+from request import Request
 
-class App:
+app = FastAPI()
 
-    @staticmethod
-    def get_request_response(url: str):
-        return requests.get(url, verify=False)
+@app.get('/api/hello')
+def hello_world():
+    """
+    Endpoint que exibe mensagem incrível
+    """
+    return {'Hello': 'World'}
 
-    @staticmethod
-    def convert_json_response_to_dict(response: Response, field_to_retrieve: str, keys: list[str]) -> dict:
-        response_dict = {}
-        for item in response.json():
-            data_name = item[field_to_retrieve]
-            if data_name not in response_dict:
-                response_dict[data_name] = []
-
-            response_dict[data_name].append(
-                {key: item[key] for key in keys}
-            )
-        return response_dict
+@app.get('/api/restaurantes/')
+def get_restaurantes(restaurante: str = Query(None)):
+    url = "https://guilhermeonrails.github.io/api-restaurantes/restaurantes.json"
+    request = Request()
+    response = request.get_request_response(url)
+    if restaurante is None:
+        return {"Dados": response.json()}
+    response_dict = request.get_json_field_as_list(response, "Company", restaurante, ["Item", "price", "description"])
+    return {'Restaurante': restaurante, 'Cardapio': response_dict}
